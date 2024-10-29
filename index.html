@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de BTUs de Ar Condicionado</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .container { max-width: 400px; margin: auto; }
+    label, input, select { display: block; margin-top: 10px; }
+    button { margin-top: 20px; }
+    .result { font-weight: bold; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Calculadora de BTUs de Ar Condicionado</h2>
+  
+  <label for="area">Área do Ambiente (m²):</label>
+  <input type="number" id="area" placeholder="Ex: 20">
+
+  <label for="pessoas">Número de Pessoas:</label>
+  <input type="number" id="pessoas" placeholder="Ex: 3">
+
+  <label for="eletronicos">Número de Aparelhos Eletrônicos:</label>
+  <input type="number" id="eletronicos" placeholder="Ex: 2">
+
+  <label for="exposicao">Exposição ao Sol:</label>
+  <select id="exposicao">
+    <option value="indireta">Indireta (sem luz direta)</option>
+    <option value="parcial">Parcial (luz indireta ou parte do dia)</option>
+    <option value="direta">Direta (luz direta)</option>
+  </select>
+
+  <button onclick="calcularBTUs()">Calcular BTUs</button>
+
+  <div class="result" id="resultado"></div>
+</div>
+
+<script>
+  function calcularBTUs() {
+    const area = parseFloat(document.getElementById('area').value);
+    const pessoas = parseInt(document.getElementById('pessoas').value);
+    const eletronicos = parseInt(document.getElementById('eletronicos').value);
+    const exposicao = document.getElementById('exposicao').value;
+    
+    if (isNaN(area) || isNaN(pessoas) || isNaN(eletronicos)) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
+
+    // Cálculo inicial de BTUs
+    let btus = (area * 600) + (pessoas * 600) + (eletronicos * 600);
+
+    // Ajuste conforme a exposição solar
+    if (exposicao === 'direta') {
+      btus *= 1.2;  // Aumenta em 20% para exposição direta
+    } else if (exposicao === 'parcial') {
+      btus *= 1.1;  // Aumenta em 10% para exposição parcial
+    }
+
+    // Mostra o resultado
+    document.getElementById('resultado').innerHTML = `BTUs necessários: ${btus.toFixed(2)} BTUs`;
+  }
+</script>
+
+</body>
+</html>
